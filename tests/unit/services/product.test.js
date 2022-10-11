@@ -19,7 +19,6 @@ describe('Testes de unidade do Service de produtos', function () {
     sinon.stub(productModel, 'findById').resolves(products[0]);
     const result = await productService.findProductById(1);
 
-    console.log(result);
     expect(result.type).to.equal(null);
     expect(result.message).to.be.deep.equal(products[0]);
   });
