@@ -1,7 +1,9 @@
 const chai = require('chai');
 const sinon = require('sinon');
+const sinonChai = require('sinon-chai')
 
 const { expect } = chai;
+chai.use(sinonChai)
 
 const { productService } = require('../../../src/services');
 const productController = require('../../../src/controllers/product.controller');
@@ -38,7 +40,7 @@ describe('Verificando controller de Products', function () {
       await productController.getProductById(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
-      expect(res.json).to.have.been.calledWith(products);
+      expect(res.json).to.have.been.calledWith(products[0]);
     });
 
     it('Buscando produto pelo id invalido', async function () {
@@ -54,21 +56,6 @@ describe('Verificando controller de Products', function () {
 
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
-    });
-
-    it('Error ao pesquisar', async function () {
-      const res = {};
-      const req = {};
-
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
-      sinon.stub(productService, 'findAllProduct')
-        .resolves({ type: 'error', message: 'Products not found' });
-
-      await productController.getProduct(req, res);
-
-      expect(res.status).to.have.been.calledWith(404);
-      expect(res.json).to.have.been.calledWith({ message: 'Products not found' });
     });
   });
 })
