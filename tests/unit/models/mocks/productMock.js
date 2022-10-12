@@ -13,6 +13,9 @@ const products = [
   }
 ];
 
+const newProduct = 'Capa do Dr. Estranho';
+
 module.exports = {
   products,
+  newProduct,
 }
