@@ -57,5 +57,35 @@ describe('Verificando controller de Products', function () {
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
     });
+
+    it('inserindo produto corretamente', async function () {
+      const res = {};
+      const req = { body: { name: 'Capa do dr. Estranho' } };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'createProduct')
+        .resolves({ type: null, message: products[0] });
+
+      await productController.insertProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(products[0]);
+    });
+
+    it('inserindo produto sem o name', async function () {
+      const res = {};
+      const req = { body: { name: undefined } };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'createProduct')
+        .resolves({ type: 'error', message: '"name" is required' });
+
+      await productController.insertProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
+    });
   });
 })
