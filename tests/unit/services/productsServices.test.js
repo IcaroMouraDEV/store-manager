@@ -51,7 +51,7 @@ describe('Testes de unidade do Service de produtos', function () {
       const result = await productService.createProduct('nada');
 
       expect(result.type).to.equal('error');
-      expect(result.message).to.equal('"value" length must be at least 5 characters long');
+      expect(result.message).to.equal('"name" length must be at least 5 characters long');
     });
   })
 });
