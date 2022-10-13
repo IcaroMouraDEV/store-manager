@@ -3,7 +3,7 @@ const sinon = require('sinon');
 
 const { productModel } = require('../../../src/models');
 const connection = require('../../../src/models/connection');
-const { products, productInserted, newProduct } = require('./mocks/productMock');
+const { products, productInserted, newProduct, productUpdated } = require('./mocks/productMock');
 
 describe('Testes de unidade do model de produtos', function () {
   afterEach(sinon.restore);
@@ -24,5 +24,13 @@ describe('Testes de unidade do model de produtos', function () {
     sinon.stub(connection, 'execute').resolves([{ insertId: 4 }]);
     const result = await productModel.insert(newProduct);
     expect(result).to.equal(4);
+  });
+
+  it('Atualizando um produto', async function () {
+    sinon.stub(connection, 'execute').resolves(productUpdated);
+    const result = await productModel.updateById(1, 'Batmovel');
+    
+    expect(result[0].affectedRows).to.be.deep.equal(1);
+    expect(result[0].changedRows).to.be.deep.equal(1);
   });
 });
