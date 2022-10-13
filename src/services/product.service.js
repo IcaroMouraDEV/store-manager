@@ -27,6 +27,10 @@ const createProduct = async (name) => {
 };
 
 const updateProduct = async (id, name) => {
+  const validateResult = validateProductNameLenght(name);
+
+  if (validateResult.type) return validateResult;
+
   const product = await productModel.findById(id);
 
   if (!product) return { type: 'error', message: 'Product not found' };

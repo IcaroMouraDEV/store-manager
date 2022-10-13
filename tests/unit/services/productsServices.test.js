@@ -63,7 +63,7 @@ describe('Testes de unidade do Service de produtos', function () {
     expect(result.message).to.be.deep.equal(updatedProduct);
   });
 
-  it('Atualizando com inputs invalidos', async function () {
+  it('Atualizando com id invalido', async function () {
     sinon.stub(productModel, 'findById').resolves(undefined);
     sinon.stub(productModel, 'updateById').resolves(null);
     
@@ -71,5 +71,15 @@ describe('Testes de unidade do Service de produtos', function () {
 
     expect(result.type).to.equal('error');
     expect(result.message).to.be.deep.equal('Product not found');
+  });
+
+  it('Atualizando com name invalido', async function () {
+    sinon.stub(productModel, 'findById').resolves(productUpdated);
+    sinon.stub(productModel, 'updateById').resolves(null);
+    
+    const result = await productService.updateProduct(1, 'nada');
+
+    expect(result.type).to.equal('error');
+    expect(result.message).to.equal('"name" length must be at least 5 characters long');
   });
 });
