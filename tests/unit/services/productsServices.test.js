@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { productModel } = require('../../../src/models');
 const { productService } = require('../../../src/services')
-const { products, productUpdated, updatedProduct } = require('./mocks/productMock');
+const { products, productUpdated, updatedProduct, productDeleted } = require('./mocks/productMock');
 
 describe('Testes de unidade do Service de produtos', function () {
   afterEach(sinon.restore);
@@ -79,5 +79,25 @@ describe('Testes de unidade do Service de produtos', function () {
 
     expect(result.type).to.equal('error');
     expect(result.message).to.equal('"name" length must be at least 5 characters long');
+  });
+
+  it('Deletando com input valido', async function () {
+    sinon.stub(productModel, 'findById').resolves(products[0]);
+    sinon.stub(productModel, 'deleteById').resolves(productDeleted);
+    
+    const result = await productService.deleteProduct(1);
+
+    expect(result.type).to.equal(null);
+    expect(result.message).to.deep.equal([]);
+  });
+
+  it('Deletando com input invalido', async function () {
+    sinon.stub(productModel, 'findById').resolves(undefined);
+    sinon.stub(productModel, 'deleteById').resolves(null);
+    
+    const result = await productService.deleteProduct(111);
+
+    expect(result.type).to.equal('not found');
+    expect(result.message).to.deep.equal('Product not found');
   });
 });
