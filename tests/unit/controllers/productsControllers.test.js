@@ -113,7 +113,7 @@ describe('Verificando controller de Products', function () {
       .resolves({ type: 'error', message: '"name" length must be at least 5 characters long' });
 
     await productController.updateProduct(req, res);
-    console.log(res);
+
     expect(res.status).to.have.been.calledWith(422);
     expect(res.json).to.have.been.calledWith({
       message: '"name" length must be at least 5 characters long',
@@ -130,6 +130,36 @@ describe('Verificando controller de Products', function () {
       .resolves({ type: 'not found', message: 'Product not found' });
 
     await productController.updateProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith({ message: 'Product not found'});
+  });
+
+  it('Deletando o produto corretamente', async function () {
+    const res = {};
+    const req = { params: { id: 1 } };
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(productService, 'deleteProduct')
+      .resolves({ type: null, message: [] });
+
+    await productController.deleteProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(204);
+    expect(res.json).to.have.been.calledWith([]);
+  });
+
+  it('Deletando o produto com id inexistente', async function () {
+    const res = {};
+    const req = { params: { id: 11111 } };
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(productService, 'deleteProduct')
+      .resolves({ type: 'not found', message: 'Product not found' });
+
+    await productController.deleteProduct(req, res);
 
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith({ message: 'Product not found'});
