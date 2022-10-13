@@ -4,6 +4,8 @@ const validateProductNameLenght = (name) => {
   const { error } = productNameSchema.validate({ name });
 
   if (error) return { type: 'error', message: error.message };
+
+  return { type: null, message: '' };
 };
 
 module.exports = {
