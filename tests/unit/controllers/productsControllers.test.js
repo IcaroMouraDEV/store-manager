@@ -113,9 +113,11 @@ describe('Verificando controller de Products', function () {
       .resolves({ type: 'error', message: '"name" length must be at least 5 characters long' });
 
     await productController.updateProduct(req, res);
-
-    expect(res.type).to.equal('error');
-    expect(res.message).to.equal('"name" length must be at least 5 characters long');
+    console.log(res);
+    expect(res.status).to.have.been.calledWith(422);
+    expect(res.json).to.have.been.calledWith({
+      message: '"name" length must be at least 5 characters long',
+    });
   });
 
   it('atualizando o produto com o id incorreto', async function () {
@@ -129,7 +131,7 @@ describe('Verificando controller de Products', function () {
 
     await productController.updateProduct(req, res);
 
-    expect(res.type).to.equal('not found');
-    expect(res.message).to.equal('Product not found');
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith({ message: 'Product not found'});
   });
 });

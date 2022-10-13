@@ -67,7 +67,7 @@ describe('Testes de unidade do Service de produtos', function () {
     
     const result = await productService.updateProduct(4, 'Batmovel');
 
-    expect(result.type).to.equal('error');
+    expect(result.type).to.equal('not found');
     expect(result.message).to.be.deep.equal('Product not found');
   });
 
