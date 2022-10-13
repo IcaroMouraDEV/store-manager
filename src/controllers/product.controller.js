@@ -29,7 +29,8 @@ const updateProduct = async (req, res) => {
   const { name } = req.body;
   const { type, message } = await productService.updateProduct(id, name);
   
-  if (type) return res.status(404).json({ message });
+  if (type === 'error') return res.status(422).json({ message });
+  if (type === 'not found') return res.status(404).json({ message });
 
   res.status(200).json(message);
 };

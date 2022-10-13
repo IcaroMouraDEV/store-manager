@@ -33,7 +33,7 @@ const updateProduct = async (id, name) => {
 
   const product = await productModel.findById(id);
 
-  if (!product) return { type: 'error', message: 'Product not found' };
+  if (!product) return { type: 'not found', message: 'Product not found' };
 
   await productModel.updateById(id, name);
 
