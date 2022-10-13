@@ -102,4 +102,34 @@ describe('Verificando controller de Products', function () {
     expect(res.status).to.have.been.calledWith(200);
     expect(res.json).to.have.been.calledWith(updatedProduct);
   });
+
+  it('atualizando o produto com o nome incorreto', async function () {
+    const res = {};
+    const req = { body: { name: 'Capa' }, params: { id: 1 } };
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(productService, 'updateProduct')
+      .resolves({ type: 'error', message: '"name" length must be at least 5 characters long' });
+
+    await productController.updateProduct(req, res);
+
+    expect(res.type).to.equal('error');
+    expect(res.message).to.equal('"name" length must be at least 5 characters long');
+  });
+
+  it('atualizando o produto com o id incorreto', async function () {
+    const res = {};
+    const req = { body: { name: 'Capa do batman' }, params: { id: 999 } };
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(productService, 'updateProduct')
+      .resolves({ type: 'not found', message: 'Product not found' });
+
+    await productController.updateProduct(req, res);
+
+    expect(res.type).to.equal('not found');
+    expect(res.message).to.equal('Product not found');
+  });
 });
