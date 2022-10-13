@@ -11,4 +11,6 @@ route.get('/:id', productController.getProductById);
 
 route.post('/', validateName, productController.insertProduct);
 
+route.put('/:id', productController.updateProduct);
+
 module.exports = route;

@@ -33,12 +33,17 @@
     "containerId": "",
     "name": "http://localhost:3000/products/1",
     "url": "http://localhost:3000/products/4",
-    "method": "GET",
+    "method": "PUT",
     "sortNum": 0,
     "created": "2022-10-11T19:26:32.375Z",
-    "modified": "2022-10-13T17:33:16.663Z",
+    "modified": "2022-10-13T18:02:35.529Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Martelo do Thor\"\n}",
+      "form": []
+    },
     "tests": []
   },
   {
