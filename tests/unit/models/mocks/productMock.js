@@ -28,8 +28,21 @@ const productUpdated = [
   undefined,
 ];
 
+const productDeleted = [
+  {
+    fieldCount: 0,
+    affectedRows: 0,
+    insertId: 0,
+    info: '',
+    serverStatus: 2,
+    warningStatus: 0
+  },
+  undefined
+]
+
 module.exports = {
   products,
   newProduct,
   productUpdated,
+  productDeleted,
 }

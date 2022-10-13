@@ -3,7 +3,7 @@ const sinon = require('sinon');
 
 const { productModel } = require('../../../src/models');
 const connection = require('../../../src/models/connection');
-const { products, productInserted, newProduct, productUpdated } = require('./mocks/productMock');
+const { products, productInserted, newProduct, productUpdated, productDeleted } = require('./mocks/productMock');
 
 describe('Testes de unidade do model de produtos', function () {
   afterEach(sinon.restore);
@@ -32,5 +32,12 @@ describe('Testes de unidade do model de produtos', function () {
     
     expect(result[0].affectedRows).to.be.deep.equal(1);
     expect(result[0].changedRows).to.be.deep.equal(1);
+  });
+
+  it('Deletando um produto', async function () {
+    sinon.stub(connection, 'execute').resolves(productDeleted);
+    const result = await productModel.deleteById(1);
+    
+    expect(result[0].affectedRows).to.be.deep.equal(0);
   });
 });
