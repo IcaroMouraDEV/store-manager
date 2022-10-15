@@ -17,7 +17,45 @@ const insertSaleProduct = async ({ productId, quantity }, saleId) => {
   return result;
 };
 
+const findAllSale = async () => {
+  const [result] = await connection.execute(
+    'SELECT * FROM StoreManager.sales',
+  );
+
+  return result;
+};
+
+const findAllSaleProduct = async () => {
+  const [result] = await connection.execute(
+    'SELECT * FROM StoreManager.sales_products',
+  );
+
+  return result;
+};
+
+const findSaleById = async (id) => {
+  const [[result]] = await connection.execute(
+    'SELECT * FROM StoreManager.sales WHERE id = ?',
+    [id],
+  );
+
+  return result;
+};
+
+const findSaleProductsById = async (id) => {
+  const [result] = await connection.execute(
+    'SELECT * FROM StoreManager.sales_products WHERE sale_id = ?',
+    [id],
+  );
+
+  return result;
+};
+
 module.exports = {
   insertSale,
   insertSaleProduct,
+  findSaleById,
+  findSaleProductsById,
+  findAllSale,
+  findAllSaleProduct,
 };
