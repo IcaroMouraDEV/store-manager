@@ -33,7 +33,6 @@ describe('Testes de unidade do Service de sales', function () {
       sinon.stub(productModel, 'findById').resolves(undefined);
       const result = await saleService.createSale([{ productId: 999, quantity: 1 }]);
 
-      console.log(result);
       expect(result.type).to.equal('not found');
       expect(result.message).to.equal('Product not found');
     })
