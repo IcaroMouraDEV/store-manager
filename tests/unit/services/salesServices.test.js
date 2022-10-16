@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { salesModel, productModel } = require('../../../src/models');
 const { saleService } = require('../../../src/services');
-const { saleProduct, insertSaleProductResult } = require('./mocks/salesMock');
+const { saleProduct, insertSaleProductResult, sales, salesProduct, allSaleProduct, saleProductById } = require('./mocks/salesMock');
 
 describe('Testes de unidade do Service de sales', function () {
   afterEach(sinon.restore);
@@ -68,4 +68,34 @@ describe('Testes de unidade do Service de sales', function () {
     expect(result.type).to.equal(null);
     expect(result.message).to.deep.equal(saleProduct.message);
   })
+
+  it('recuperando todas as sales', async function () {
+    sinon.stub(salesModel, 'findAllSale').resolves(sales);
+    sinon.stub(salesModel, 'findAllSaleProduct').resolves(salesProduct);
+
+    const result = await saleService.getAllSales();
+
+    expect(result.type).to.equal(null);
+    expect(result.message).to.deep.equal(allSaleProduct);
+  });
+
+  it('recuperando as sales com id 1', async function () {
+    const salesWithId1 = [salesProduct[0], salesProduct[1]];
+    sinon.stub(salesModel, 'findSaleById').resolves(sales[0]);
+    sinon.stub(salesModel, 'findSaleProductsById').resolves(salesWithId1);
+
+    const result = await saleService.getSalesById(1);
+
+    expect(result.type).to.equal(null);
+    expect(result.message).to.deep.equal(saleProductById);
+  });
+
+  it('recuperando as sales com id inexistente', async function () {
+    sinon.stub(salesModel, 'findSaleById').resolves(undefined);
+
+    const result = await saleService.getSalesById(1);
+
+    expect(result.type).to.equal('not found');
+    expect(result.message).to.deep.equal('Sale not found');
+  });
 });

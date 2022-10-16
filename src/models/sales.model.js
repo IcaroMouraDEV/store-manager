@@ -27,7 +27,10 @@ const findAllSale = async () => {
 
 const findAllSaleProduct = async () => {
   const [result] = await connection.execute(
-    'SELECT * FROM StoreManager.sales_products',
+    `
+    SELECT * FROM StoreManager.sales_products
+    ORDER BY sale_id ASC, product_id ASC
+    `,
   );
 
   return result;
@@ -44,7 +47,10 @@ const findSaleById = async (id) => {
 
 const findSaleProductsById = async (id) => {
   const [result] = await connection.execute(
-    'SELECT * FROM StoreManager.sales_products WHERE sale_id = ?',
+    `
+    SELECT * FROM StoreManager.sales_products WHERE sale_id = ?
+    ORDER BY sale_id ASC, product_id ASC
+    `,
     [id],
   );
 
