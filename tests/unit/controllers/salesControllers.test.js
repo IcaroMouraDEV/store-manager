@@ -2,7 +2,7 @@ const chai = require('chai');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const { saleService } = require('../../../src/services');
-const { saleProduct } = require('./mocks/saleMock');
+const { saleProduct, allSaleProduct, saleProductById } = require('./mocks/saleMock');
 const saleController = require('../../../src/controllers/sales.controller');
 const { productModel } = require('../../../src/models');
 const { expect } = chai;
@@ -135,4 +135,49 @@ describe('Verificando controller de Sales', function () {
       expect(res.json).to.have.been.calledWith({ message: '"quantity" must be greater than or equal to 1' });
     });
   })
+
+  it('recuperando todas as sales', async function () {
+    const res = {};
+    const req = {};
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(saleService, 'getAllSales')
+      .resolves({ type: null, message: allSaleProduct });
+
+    await saleController.getAllProducts(req, res)
+
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(allSaleProduct);
+  });
+
+  it('recuperando as sales com id 1', async function () {
+    const res = {};
+    const req = { params: { id: 1 } };
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(saleService, 'getSalesById')
+      .resolves({ type: null, message: saleProductById });
+
+    await saleController.getProductsById(req, res)
+
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(saleProductById);
+  });
+
+  it('recuperando as sales com id inexistente', async function () {
+    const res = {};
+    const req = { params: { id: 444 } };
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(saleService, 'getSalesById')
+      .resolves({ type: 'not found', message: 'Sale not found' });
+
+    await saleController.getProductsById(req, res)
+
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+  });
 })

@@ -1,3 +1,4 @@
+const camelize = require('camelize');
 const { salesModel, productModel } = require('../models');
 const { validateSaleObject } = require('./validation/validations');
 
@@ -28,9 +29,11 @@ const getAllSales = async () => {
   const salesProduct = await salesModel.findAllSaleProduct();
 
   const message = salesProduct.map((sale) => {
-    const { date } = sales.find((item) => item.id === sale.sale_id);
+    const newSale = camelize(sale);
+    const { date } = sales.find((item) => item.id === newSale.saleId);
+
     return {
-      ...sale,
+      ...newSale,
       date,
     };
   });
@@ -44,11 +47,14 @@ const getSalesById = async (id) => {
   if (!sales) return { type: 'not found', message: 'Sale not found' };
 
   const salesProduct = await salesModel.findSaleProductsById(id);
-  const message = salesProduct.map((sale) => ({
-    date: sales.date,
-    productId: sale.product_id,
-    quantity: sale.quantity,
-  }));
+  const message = salesProduct.map((sale) => {
+    const newSale = camelize(sale);
+    return {
+      date: sales.date,
+      productId: newSale.productId,
+      quantity: newSale.quantity,
+    };
+  });
 
   return { type: null, message };
 };

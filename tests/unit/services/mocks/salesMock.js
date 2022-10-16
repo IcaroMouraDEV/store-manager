@@ -30,11 +30,11 @@ const sales = [
 ];
 
 const salesProduct = [
-  { sale_id: 1, product_id: 1, quantity: 5 },
-  { sale_id: 1, product_id: 2, quantity: 10 },
-  { sale_id: 2, product_id: 3, quantity: 15 },
-  { sale_id: 3, product_id: 1, quantity: 1 },
-  { sale_id: 3, product_id: 2, quantity: 5 },
+  { saleId: 1, productId: 1, quantity: 5 },
+  { saleId: 1, productId: 2, quantity: 10 },
+  { saleId: 2, productId: 3, quantity: 15 },
+  { saleId: 3, productId: 1, quantity: 1 },
+  { saleId: 3, productId: 2, quantity: 5 },
 ];
 
 const saleProductById = [
@@ -44,36 +44,36 @@ const saleProductById = [
 
 const allSaleProduct = [
   {
-    sale_id: 1,
-    product_id: 1,
+    saleId: 1,
+    productId: 1,
     quantity: 5,
     date: '2022-10-15T22:41:35.000Z'
   },
   {
-    sale_id: 1,
-    product_id: 2,
+    saleId: 1,
+    productId: 2,
     quantity: 10,
     date: '2022-10-15T22:41:35.000Z'
   },
   {
-    sale_id: 2,
-    product_id: 3,
+    saleId: 2,
+    productId: 3,
     quantity: 15,
     date: '2022-10-15T22:41:35.000Z'
   },
   {
-    sale_id: 3,
-    product_id: 1,
+    saleId: 3,
+    productId: 1,
     quantity: 1,
     date: '2022-10-15T22:41:35.000Z'
   },
   {
-    sale_id: 3,
-    product_id: 2,
+    saleId: 3,
+    productId: 2,
     quantity: 5,
     date: '2022-10-15T22:41:35.000Z'
   }
-]
+];
 
 module.exports = {
   insertSaleProductResult,
