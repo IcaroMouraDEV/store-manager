@@ -6,6 +6,14 @@ const getProduct = async (_req, res) => {
   res.status(200).json(message);
 };
 
+const getProductByQuery = async (req, res) => {
+  const { q } = req.query;
+  const { message } = await productService.findAllProduct();
+  const items = message.filter((item) => item.name.includes(q));
+
+  res.status(200).json(items);
+};
+
 const getProductById = async (req, res) => {
   const { id } = req.params;
   const { type, message } = await productService.findProductById(id);
@@ -50,4 +58,5 @@ module.exports = {
   insertProduct,
   updateProduct,
   deleteProduct,
+  getProductByQuery,
 };
