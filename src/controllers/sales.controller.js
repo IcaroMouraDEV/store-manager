@@ -44,7 +44,7 @@ const updateProduct = async (req, res) => {
   const { id } = req.params;
   const sales = req.body;
   const { type, message } = await saleService.updateSale(sales, id);
-  console.log({ type, message });
+
   const regexRequired = (string) => /is required/.test(string);
   const regexOrder = (string) => /than or equal to 1/.test(string);
   const regexNumber = (string) => /be a number/.test(string);

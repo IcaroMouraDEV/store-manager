@@ -81,7 +81,7 @@ const updateSale = async (sales, saleId) => {
   if (!productIdValidation) return { type: 'not found', message: 'Product not found' };
 
   const salesValidation = await salesModel.findSaleById(saleId);
-  console.log(salesValidation);
+
   if (!salesValidation) return { type: 'not found', message: 'Sale not found' };
 
   await Promise.all(sales.map(async (item) => {
