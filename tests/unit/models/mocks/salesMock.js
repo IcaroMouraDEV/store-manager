@@ -36,9 +36,23 @@ const deleteReturn = [
   undefined
 ]
 
+const updateResult = [
+  {
+    fieldCount: 0,
+    affectedRows: 2,
+    insertId: 0,
+    info: 'Rows matched: 2  Changed: 0  Warnings: 0',
+    serverStatus: 2,
+    warningStatus: 0,
+    changedRows: 0
+  },
+  undefined
+]
+
 module.exports = {
   insertedSaleProduct,
   sales,
   salesProduct,
   deleteReturn,
+  updateResult,
 }

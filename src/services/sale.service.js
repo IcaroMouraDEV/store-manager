@@ -69,9 +69,34 @@ const removeSale = async (id) => {
   return { type: null, message: [] };
 };
 
+const updateSale = async (sales, saleId) => {
+  const validateResult = validateSaleObject(sales);
+
+  if (validateResult) return validateResult;
+
+  const products = await Promise
+    .all(sales.map(async ({ productId }) => productModel.findById(productId)));
+  const productIdValidation = products.every((item) => item);
+
+  if (!productIdValidation) return { type: 'not found', message: 'Product not found' };
+
+  const salesValidation = await salesModel.findSaleById(saleId);
+  console.log(salesValidation);
+  if (!salesValidation) return { type: 'not found', message: 'Sale not found' };
+
+  await Promise.all(sales.map(async (item) => {
+    const product = await salesModel.updateSaleProduct(item, saleId);
+
+    return product;
+  }));
+
+  return { type: null, message: { saleId, itemsUpdated: sales } };
+};
+
 module.exports = {
   createSale,
   getAllSales,
   getSalesById,
   removeSale,
+  updateSale,
 };

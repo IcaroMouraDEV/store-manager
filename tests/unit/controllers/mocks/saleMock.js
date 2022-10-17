@@ -49,8 +49,22 @@ const saleProductById = [
   { date: '2022-10-15T22:41:35.000Z', productId: 2, quantity: 10 }
 ]
 
+const saleProductUpdate = {
+  type: null,
+  message: {
+    saleId: 1,
+    itemsUpdated: [
+      {
+        productId: 1,
+        quantity: 20
+      }
+    ]
+  }
+}
+
 module.exports = {
   saleProduct,
   allSaleProduct,
   saleProductById,
+  saleProductUpdate,
 }

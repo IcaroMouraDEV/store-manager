@@ -87,6 +87,19 @@ const deleteReturn = [
   undefined
 ]
 
+const saleProductUpdate = {
+  type: null,
+  message: {
+    saleId: 1,
+    itemsUpdated: [
+      {
+        productId: 1,
+        quantity: 20
+      }
+    ]
+  }
+}
+
 module.exports = {
   insertSaleProductResult,
   saleProduct,
@@ -95,4 +108,5 @@ module.exports = {
   allSaleProduct,
   saleProductById,
   deleteReturn,
+  saleProductUpdate,
 }

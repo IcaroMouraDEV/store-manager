@@ -2,7 +2,7 @@ const chai = require('chai');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const { saleService } = require('../../../src/services');
-const { saleProduct, allSaleProduct, saleProductById } = require('./mocks/saleMock');
+const { saleProduct, allSaleProduct, saleProductById, saleProductUpdate } = require('./mocks/saleMock');
 const saleController = require('../../../src/controllers/sales.controller');
 const { productModel } = require('../../../src/models');
 const { expect } = chai;
@@ -210,4 +210,154 @@ describe('Verificando controller de Sales', function () {
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
   });
+
+  it('atualizando sale corretamente', async function () {
+  const res = {};
+  const req = {
+    params: { id: 1 },
+    body: [
+      {
+        productId: 1,
+        quantity: 10,
+      }
+    ],
+  };
+
+  res.status = sinon.stub().returns(res);
+  res.json = sinon.stub().returns();
+  sinon.stub(saleService, 'updateSale').resolves(saleProductUpdate);
+
+  await saleController.updateProduct(req, res)
+
+  expect(res.status).to.have.been.calledWith(200);
+  expect(res.json).to.have.been.calledWith(saleProductUpdate.message);
+  });
+
+  describe('atualizando sale incorretamente', function () {
+    it('atualizando sale_id sendo inexistente', async function () {
+      const res = {};
+      const req = {
+        params: { id: 999 },
+        body: [
+          {
+            productId: 1,
+            quantity: 1,
+          }
+        ],
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await saleController.updateProduct(req, res)
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+    it('atualizando sale com id sendo string', async function () {
+      const res = {};
+      const req = {
+        params: { id: 1 },
+        body: [
+          {
+            productId: '',
+            quantity: 1,
+          }
+        ],
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await saleController.updateProduct(req, res)
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: '"productId" must be a number' });
+    });
+
+    it('atualizando sale com id sendo undefined', async function () {
+      const res = {};
+      const req = {
+        params: { id: 1 },
+        body: [
+          {
+            productId: undefined,
+            quantity: 1,
+          }
+        ],
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await saleController.updateProduct(req, res)
+
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({ message: '"productId" is required' });
+    });
+
+    it('atualizando sale com id inexistente', async function () {
+      const res = {};
+      const req = {
+        params: { id: 1 },
+        body: [
+          {
+            productId: 9999,
+            quantity: 1,
+          }
+        ],
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productModel, 'findById').resolves(undefined)
+
+      await saleController.updateProduct(req, res)
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
+
+    it('atualizando sale com quantity sendo string', async function () {
+      const res = {};
+      const req = {
+        params: { id: 1 },
+        body: [
+          {
+            productId: 1,
+            quantity: '',
+          }
+        ],
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await saleController.updateProduct(req, res)
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: '"quantity" must be a number' });
+    });
+
+    it('atualizando sale com quantity sendo 0', async function () {
+      const res = {};
+      const req = {
+        params: { id: 1 },
+        body: [
+          {
+            productId: 1,
+            quantity: 0,
+          }
+        ],
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await saleController.updateProduct(req, res)
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: '"quantity" must be greater than or equal to 1' });
+    });
+  })
 })
