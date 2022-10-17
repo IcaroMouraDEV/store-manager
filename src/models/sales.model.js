@@ -78,8 +78,6 @@ const updateSaleProduct = async ({ productId, quantity }, saleId) => {
   return result;
 };
 
-updateSaleProduct({ productId: 1, quantity: 2 }, 1);
-
 module.exports = {
   insertSale,
   insertSaleProduct,
