@@ -6,7 +6,7 @@ const { products, productUpdated, updatedProduct, productDeleted } = require('./
 
 describe('Testes de unidade do Service de produtos', function () {
   afterEach(sinon.restore);
-
+  //teste
   it('Recuperando a lista de produtos', async function () {
     sinon.stub(productModel, 'findAll').resolves(products);
     const result = await productService.findAllProduct();
