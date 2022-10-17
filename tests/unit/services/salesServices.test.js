@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { salesModel, productModel } = require('../../../src/models');
 const { saleService } = require('../../../src/services');
-const { saleProduct, insertSaleProductResult, sales, salesProduct, allSaleProduct, saleProductById } = require('./mocks/salesMock');
+const { saleProduct, insertSaleProductResult, sales, salesProduct, allSaleProduct, saleProductById, deleteReturn } = require('./mocks/salesMock');
 
 describe('Testes de unidade do Service de sales', function () {
   afterEach(sinon.restore);
@@ -94,6 +94,25 @@ describe('Testes de unidade do Service de sales', function () {
     sinon.stub(salesModel, 'findSaleById').resolves(undefined);
 
     const result = await saleService.getSalesById(1);
+
+    expect(result.type).to.equal('not found');
+    expect(result.message).to.deep.equal('Sale not found');
+  });
+
+  it('Deletando as sales com id', async function () {
+    sinon.stub(salesModel, 'findSaleById').resolves(sales);
+    sinon.stub(salesModel, 'removeSale').resolves(deleteReturn);
+
+    const result = await saleService.removeSale(1);
+
+    expect(result.type).to.equal(null);
+    expect(result.message).to.deep.equal([]);
+  });
+
+  it('Deletando as sales com id', async function () {
+    sinon.stub(salesModel, 'findSaleById').resolves(undefined);
+
+    const result = await saleService.removeSale(1);
 
     expect(result.type).to.equal('not found');
     expect(result.message).to.deep.equal('Sale not found');

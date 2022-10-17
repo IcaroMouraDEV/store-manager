@@ -180,4 +180,34 @@ describe('Verificando controller de Sales', function () {
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
   });
+
+  it('Deletando as sales com id', async function () {
+    const res = {};
+    const req = { params: { id: 1 } };
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(saleService, 'removeSale')
+      .resolves({ type: null, message: [] });
+
+    await saleController.removeSaleById(req, res)
+
+    expect(res.status).to.have.been.calledWith(204);
+    expect(res.json).to.have.been.calledWith([]);
+  });
+
+  it('Deletando as sales com id inexistente', async function () {
+    const res = {};
+    const req = { params: { id: 4 } };
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(saleService, 'removeSale')
+      .resolves({ type: 'not found', message: 'Sale not found' });
+
+    await saleController.removeSaleById(req, res)
+
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+  });
 })

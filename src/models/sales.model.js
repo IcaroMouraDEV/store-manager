@@ -57,6 +57,15 @@ const findSaleProductsById = async (id) => {
   return result;
 };
 
+const removeSale = async (id) => {
+  const result = await connection.execute(
+    'DELETE FROM StoreManager.sales WHERE id = ?',
+    [id],
+  );
+
+  return result;
+};
+
 module.exports = {
   insertSale,
   insertSaleProduct,
@@ -64,4 +73,5 @@ module.exports = {
   findSaleProductsById,
   findAllSale,
   findAllSaleProduct,
+  removeSale,
 };

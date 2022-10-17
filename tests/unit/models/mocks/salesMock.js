@@ -24,8 +24,21 @@ const salesProduct = [
   { sale_id: 3, product_id: 2, quantity: 5 },
 ];
 
+const deleteReturn = [
+  {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 0,
+    info: '',
+    serverStatus: 2,
+    warningStatus: 0
+  },
+  undefined
+]
+
 module.exports = {
   insertedSaleProduct,
   sales,
   salesProduct,
+  deleteReturn,
 }
